@@ -1,0 +1,4 @@
+SPACE::NETWORK
+:#NAME#MAP#SPACE
+#JLF#/data/joy/BBL/studies/MGI2/processedData/structural/nkiTemp/mgiNKITempTest_201708111144/${subject[0]}/${subject[1]}/jlf/${subject[0]}_${subject[1]}_Labels.nii.gz#str
+#JLFIntersect#/data/joy/BBL/studies/MGI2/processedData/structural/nkiTemp/mgiNKITempTest_201708111144/${subject[0]}/${subject[1]}/jlf/antsCTIntersectLabels.nii.gz#str

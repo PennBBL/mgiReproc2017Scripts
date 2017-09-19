@@ -1,0 +1,126 @@
+#!/usr/bin/env bash
+
+###################################################################
+#  ☭  ☭  ☭  ☭  ☭  ☭  ☭  ☭  ☭  ☭  ☭  ☭  ☭  ☭  ☭  ☭  ☭  ☭  ☭  ☭  ☭  #
+###################################################################
+
+
+###################################################################
+# This design file stores the values of all variables required to
+# execute a complete task-free functional connectivity pipeline.
+# You may execute the analysis specified in this design file by
+# calling (in any bash terminal):
+#
+# xcpEngine /data/joy/BBL/applications/xcpEngine/designs/mgiPncTempTest_201708111144.dsn
+#
+# Variables fall into five general categories:
+# * ANALYSIS VARIABLES are used at all stages of this analysis.
+# * PIPELINE specifies the modules that comprise the analysis.
+# * GLOBAL VARIABLES are used at all stages of all analyses.
+# * MODULE VARIABLES are used during one stage of the analysis.
+#                  These are typically array variables with array
+#                  indices equal to the index of the analysis
+#                  stage during which they are used.
+# * OUTPUT VARIABLES may be used at all stages of the analysis.
+#                  These are sometimes array variables with array
+#                  indices equal to the value of the primary
+#                  subject identifier. They will appear only in
+#                  localised design files.
+###################################################################
+
+
+###################################################################
+# ANALYSIS VARIABLES
+###################################################################
+
+analysis=mgiPncTempTest_201708111144
+design=mgiNKITempTest_201708111144.dsn
+path_cohort=/data/joy/BBL/studies/MGI2/xcpFiles/structural/cohort/Workbook1.csv
+subjects_ct=4
+xsubj=﻿10570,20100519x3305,/data/joy/BBL/studies/MGI2/rawData/10570/20100519x3305/mprage/nifti/003305_MPRAGE_SEQ02.nii.gz
+xsubj_idx=1
+ximg=/data/joy/BBL/studies/MGI2/rawData/10570/20100519x3305/mprage/nifti/003305_MPRAGE_SEQ02.nii.gz
+img=${subject[2]}
+xants=
+xstruct=
+struc=${subject[2]}
+prefix=${subject[0]}_${subject[1]}
+xfm_warp=
+ixfm_warp=
+xfm_affine=
+ixfm_affine=
+out_super=/data/joy/BBL/studies/MGI2/processedData/structural/nkiTemp/
+out=/data/joy/BBL/studies/MGI2/processedData/structural/nkiTemp//mgiNKITempTest_201708111144/${subject[0]}/${subject[1]}
+out_group=/data/joy/BBL/studies/MGI2/processedData/structural/nkiTemp//mgiNKITempTest_201708111144
+space=structural
+template=/data/joy/BBL/studies/MGI2/template/NKI/T_template_BrainCerebellum.nii.gz
+
+###################################################################
+# PIPELINE
+###################################################################
+
+pipeline=antsCT,gmd,jlf,roiquant,norm
+
+###################################################################
+# GLOBAL VARIABLES
+###################################################################
+
+XCPEDIR=/data/joy/BBL/applications/xcpEngine
+RPATH=/share/apps/R/R-3.2.3/bin/R
+FSLDIR=/share/apps/fsl/5.0.8
+ANTSPATH=/data/joy/BBL/applications/ants_20151007/bin/
+KEEPNUM=1
+NUMOUT=0
+TIMESTAMP=1
+
+###################################################################
+# 1 antsCT
+###################################################################
+
+EXTRACTION_PRIOR[1]=.2
+N4_CONVERGENCE[1]=[50x50x50x50,0.00001]
+N4_SHRINK_FACTOR[1]=1
+N4_SPLINE_PARAMS[1]=200
+templateMask=/data/joy/BBL/studies/MGI2/template/NKI/T_templateExtractionMask.nii.gz
+templatePriors=/data/joy/BBL/studies/MGI2/template/NKI/Priors/priors%d.nii.gz
+templateNonExtracted=/data/joy/BBL/studies/MGI2/template/NKI/T_template.nii.gz
+templateMaskDil=/data/joy/BBL/studies/MGI2/template/NKI/T_templateExtractionMaskDil.nii.gz
+structural_rerun[1]=N
+structural_cleanup[1]=Y
+structural_process[1]=ACTCCC
+
+###################################################################
+# 2 GMD
+###################################################################
+
+gmdMask[2]=/data/joy/BBL/studies/MGI2/processedData/structural/nkiTemp/mgiPncTempTest_201708111144/${subject[0]}/${subject[1]}/antsCT/${subject[0]}_${subject[1]}_BrainExtractionMask
+gmd_rerun[2]=Y
+gmd_cleanup[2]=Y
+
+###################################################################
+# 3 JLF
+###################################################################
+
+newAntsPath[3]=/data/joy/BBL/applications/ANTsJLF_201603/bin/
+keepJLFWarps[3]=0
+jlfExtract[3]=1
+jlfCohort[3]=Older18
+jlf_rerun[3]=N
+
+###################################################################
+# 4 ROIQUANT
+###################################################################
+
+roiquant_roi[4]=/data/joy/BBL/studies/MGI2/xcpFiles/structural/parc/example.parc
+roiquant_vol[4]=Y
+roiquant_rerun[4]=N
+roiquant_cleanup[4]=Y
+
+###################################################################
+# 5 NORM
+###################################################################
+
+norm_prog[5]=ants
+norm_template[5]=/data/joy/BBL/studies/MGI2/template/NKI/T_template_BrainCerebellum.nii.gz
+norm_rerun[5]=N
+norm_cleanup[5]=Y
